@@ -58,6 +58,10 @@ def _add_common(p: argparse.ArgumentParser) -> None:
         help="Launch the interactive real-time visual simulation dashboard",
     )
     p.add_argument(
+        "--follow", action="store_true",
+        help="Enable cinematic follow-camera mode in visual dashboard",
+    )
+    p.add_argument(
         "--save-anim", default=None,
         help="Save simulation animation to file (.gif or .mp4) instead of showing window",
     )
@@ -154,7 +158,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.gui or args.save_anim:
         from .gui import MissionVisualizer
-        vis = MissionVisualizer(simcfg, cfg, fps=15, speedup=1.5)
+        vis = MissionVisualizer(simcfg, cfg, fps=15, speedup=1.5, follow_cam=args.follow)
         vis.run(save_path=args.save_anim)
         return 0
 
