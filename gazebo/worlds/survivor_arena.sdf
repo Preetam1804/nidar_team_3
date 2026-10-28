@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version="1.9">
+  <world name="survivor_arena">
+    <physics type="ode">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+      <real_time_update_rate>250</real_time_update_rate>
+    </physics>
+
+    <gravity>0 0 -9.8066</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type="adiabatic"/>
+
+    <scene>
+      <grid>true</grid>
+      <ambient>0.45 0.45 0.45 1.0</ambient>
+      <background>0.15 0.18 0.22 1.0</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <!-- Overhead Sun Light -->
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>7.5 7.5 12 0 0 0</pose>
+      <diffuse>0.85 0.85 0.85 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.3 0.2 -1.0</direction>
+    </light>
+
+    <!-- Arena Floor (15m x 15m centered at 7.5, 7.5) -->
+    <model name="arena_ground">
+      <static>true</static>
+      <pose>7.5 7.5 0 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>15.0 15.0 0.05</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>15.0 15.0 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.25 0.28 0.32 1</ambient>
+            <diffuse>0.35 0.38 0.42 1</diffuse>
+            <specular>0.1 0.1 0.1 1</specular>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Perimeter Walls (2.5m high) -->
+    <!-- South Wall -->
+    <model name="wall_south">
+      <static>true</static>
+      <pose>7.5 0.0 1.25 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>15.0 0.2 2.5</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>15.0 0.2 2.5</size></box></geometry>
+          <material><ambient>0.6 0.6 0.65 1</ambient><diffuse>0.6 0.6 0.65 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- North Wall -->
+    <model name="wall_north">
+      <static>true</static>
+      <pose>7.5 15.0 1.25 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>15.0 0.2 2.5</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>15.0 0.2 2.5</size></box></geometry>
+          <material><ambient>0.6 0.6 0.65 1</ambient><diffuse>0.6 0.6 0.65 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- West Wall -->
+    <model name="wall_west">
+      <static>true</static>
+      <pose>0.0 7.5 1.25 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>0.2 15.0 2.5</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>0.2 15.0 2.5</size></box></geometry>
+          <material><ambient>0.6 0.6 0.65 1</ambient><diffuse>0.6 0.6 0.65 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- East Wall -->
+    <model name="wall_east">
+      <static>true</static>
+      <pose>15.0 7.5 1.25 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>0.2 15.0 2.5</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>0.2 15.0 2.5</size></box></geometry>
+          <material><ambient>0.6 0.6 0.65 1</ambient><diffuse>0.6 0.6 0.65 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Interior Corridor Partitions -->
+    <model name="interior_wall_1">
+      <static>true</static>
+      <pose>6.0 4.0 1.25 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>0.2 6.0 2.5</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 6.0 2.5</size></box></geometry><material><ambient>0.5 0.5 0.55 1</ambient><diffuse>0.5 0.5 0.55 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <model name="interior_wall_2">
+      <static>true</static>
+      <pose>10.0 10.0 1.25 0 0 0</pose>
+      <link name="link">
+        <collision name="c"><geometry><box><size>0.2 6.0 2.5</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 6.0 2.5</size></box></geometry><material><ambient>0.5 0.5 0.55 1</ambient><diffuse>0.5 0.5 0.55 1</diffuse></material></visual>
+      </link>
+    </model>
+
+    <!-- SURVIVOR 1: Room A (x=3.5, y=3.0) -->
+    <model name="survivor_1">
+      <static>true</static>
+      <pose>3.5 3.0 0.1 0 0 0.4</pose>
+      <link name="link">
+        <!-- Torso / Body -->
+        <visual name="torso">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><box><size>1.6 0.55 0.22</size></box></geometry>
+          <material><ambient>0.95 0.35 0.1 1</ambient><diffuse>0.95 0.35 0.1 1</diffuse></material>
+        </visual>
+        <!-- Head -->
+        <visual name="head">
+          <pose>0.9 0 0.05 0 0 0</pose>
+          <geometry><sphere><radius>0.16</radius></sphere></geometry>
+          <material><ambient>0.9 0.7 0.5 1</ambient><diffuse>0.9 0.7 0.5 1</diffuse></material>
+        </visual>
+        <collision name="collision">
+          <geometry><box><size>1.9 0.6 0.25</size></box></geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- SURVIVOR 2: Room B (x=8.5, y=5.5) -->
+    <model name="survivor_2">
+      <static>true</static>
+      <pose>8.5 5.5 0.1 0 0 -0.6</pose>
+      <link name="link">
+        <visual name="torso">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><box><size>1.6 0.55 0.22</size></box></geometry>
+          <material><ambient>0.1 0.45 0.85 1</ambient><diffuse>0.1 0.45 0.85 1</diffuse></material>
+        </visual>
+        <visual name="head">
+          <pose>0.9 0 0.05 0 0 0</pose>
+          <geometry><sphere><radius>0.16</radius></sphere></geometry>
+          <material><ambient>0.9 0.7 0.5 1</ambient><diffuse>0.9 0.7 0.5 1</diffuse></material>
+        </visual>
+        <collision name="collision">
+          <geometry><box><size>1.9 0.6 0.25</size></box></geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- SURVIVOR 3: North Corridor (x=4.0, y=11.5) -->
+    <model name="survivor_3">
+      <static>true</static>
+      <pose>4.0 11.5 0.1 0 0 1.2</pose>
+      <link name="link">
+        <visual name="torso">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><box><size>1.6 0.55 0.22</size></box></geometry>
+          <material><ambient>0.95 0.2 0.2 1</ambient><diffuse>0.95 0.2 0.2 1</diffuse></material>
+        </visual>
+        <visual name="head">
+          <pose>0.9 0 0.05 0 0 0</pose>
+          <geometry><sphere><radius>0.16</radius></sphere></geometry>
+          <material><ambient>0.9 0.7 0.5 1</ambient><diffuse>0.9 0.7 0.5 1</diffuse></material>
+        </visual>
+        <collision name="collision">
+          <geometry><box><size>1.9 0.6 0.25</size></box></geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- SURVIVOR 4: East Room (x=12.5, y=9.0) -->
+    <model name="survivor_4">
+      <static>true</static>
+      <pose>12.5 9.0 0.1 0 0 0.0</pose>
+      <link name="link">
+        <visual name="torso">
+          <pose>0 0 0 0 0 0</pose>
+          <geometry><box><size>1.6 0.55 0.22</size></box></geometry>
+          <material><ambient>0.95 0.8 0.1 1</ambient><diffuse>0.95 0.8 0.1 1</diffuse></material>
+        </visual>
+        <visual name="head">
+          <pose>0.9 0 0.05 0 0 0</pose>
+          <geometry><sphere><radius>0.16</radius></sphere></geometry>
+          <material><ambient>0.9 0.7 0.5 1</ambient><diffuse>0.9 0.7 0.5 1</diffuse></material>
+        </visual>
+        <collision name="collision">
+          <geometry><box><size>1.9 0.6 0.25</size></box></geometry>
+        </collision>
+      </link>
+    </model>
+
+    <!-- Drone Takeoff Helipad (x=1.5, y=1.5) -->
+    <model name="helipad">
+      <static>true</static>
+      <pose>1.5 1.5 0.03 0 0 0</pose>
+      <link name="link">
+        <visual name="pad">
+          <geometry><cylinder><radius>0.7</radius><length>0.02</length></cylinder></geometry>
+          <material><ambient>0.15 0.75 0.45 1</ambient><diffuse>0.15 0.75 0.45 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Spherical coordinates for PX4 GPS and Atmospheric Barometer -->
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <world_frame_orientation>ENU</world_frame_orientation>
+      <latitude_deg>47.397971057728974</latitude_deg>
+      <longitude_deg>8.546163739800146</longitude_deg>
+      <elevation>488</elevation>
+    </spherical_coordinates>
+
+  </world>
+</sdf>

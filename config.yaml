@@ -1,0 +1,61 @@
+# survivor_tagging — Team 3 module configuration.
+# All values can be overridden via SURVIVOR_TAGGING_<PATH> environment
+# variables (dots replaced by underscores).  See config.py for details.
+
+grid:
+  res_m: 1.0            # scoring grid cell size (mission brief: 1 m x 1 m)
+  w: 15                 # arena is at most 15 m x 15 m
+  h: 15
+
+camera:
+  frame_id: cam3noir_optical   # must match Team 2's frame naming
+  width: 1536
+  height: 864
+  # Intrinsics MUST be produced by calibration (Team 2's calibration
+  # step) — zeros are a safety guard: the module refuses to project
+  # with unset intrinsics rather than silently projecting garbage.
+  fx: 0.0
+  fy: 0.0
+  cx: 0.0
+  cy: 0.0
+  dist_model: radial_k1k2_p12  # radial_k1k2_p12 | fisheye | none
+  dist_params: []              # [k1, k2, p1, p2] or fisheye [k1, k2, k3, k4]
+
+projection:
+  floor_plane_z: 0.0           # map-frame ground height, metres
+  min_ray_elevation_deg: 0.1   # ray nearly parallel to ground => reject
+  min_floor_angle_deg: 2.0     # reject near-horizontal intersections
+  max_floor_dist_m: 15.0       # arena cap per mission brief
+  min_floor_dist_m: 0.2
+
+tracker:
+  gate_dist_m: 1.5             # max map-frame association distance
+  hit_radius_m: 0.5            # max distance to count as a hit
+  confirm_hits: 2              # hits needed to promote TENTATIVE -> CONFIRMED
+  confirm_window: 3            # within the last N detections
+  max_missed_ticks: 8          # ticks without hits before REMOVED
+  max_map_units: 64            # active track cap
+
+tags:
+  min_confirm_conf: 0.5        # below this a tag stays TENTATIVE
+  min_publish_conf: 0.5        # below this a tag is not published
+  max_pose_age_s: 0.5          # older pose than this degrades confidence hard
+  min_active_s: 0.2            # never publish a tag younger than this
+
+metrics:
+  latency_hist_bins_s: [0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0]
+  err_hist_bins_m: [0.05, 0.1, 0.25, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0, 10.0]
+  cpu_ram_sample_every_n: 100
+
+sim:
+  arena_w: 15.0
+  arena_h: 15.0
+  fov_deg: 120.0               # Pi Cam 3 NoIR Wide diagonal FOV
+  survivor_height_m: 1.7       # person / mannequin standing height
+  camera_height_m: 2.0         # nominal flight height above ground
+  drone_speed_mps: 1.0
+  drone_elev_sigma_m: 0.15     # altitude uncertainty with downward rangefinder (Team 5)
+
+logging:
+  level: INFO
+  format: "%(asctime)s %(levelname)s %(name)s %(message)s"
